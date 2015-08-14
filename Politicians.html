@@ -79,7 +79,7 @@ xAxis.tickFormat(function(d,i){
 var yAxis = d3.svg.axis()
     .scale(y)
     .tickFormat(function(d) { return d;})
-    .ticks(17) 
+    .ticks(18) 
     .innerTickSize(- width)
     .tickPadding(10)
     .outerTickSize(0)
@@ -370,10 +370,45 @@ var round = candidates.append("circle")
       // tie at end
       label.filter(function(label){
         return label.name === "Nimal Siripala de Silva";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 48) + ")"; })
       label.filter(function(label){
         return label.name === "Thilanga Sumathipala";
       }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
+      label.filter(function(label){
+        return label.name === "Susil Premajayantha";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
+      label.filter(function(label){
+        return label.name === "Rauff Hakeem";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 36) + ")"; })
+      label.filter(function(label){
+        return label.name === "Anura Kumara Disanayaka";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) +24) + ")"; })
+
+
+      // tie at end
+      label.filter(function(label){
+        return label.name === "Ravi Karunanayake";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
+      label.filter(function(label){
+        return label.name === "Sajith Premadasa";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
+
+      // tie at end
+      label.filter(function(label){
+        return label.name === "Harsha De Silva";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
+      label.filter(function(label){
+        return label.name === "Mangala Samaraweera";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
+
+            // tie at end
+      label.filter(function(label){
+        return label.name === "Bandula Gunawardane";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
+      label.filter(function(label){
+        return label.name === "John Seneviratne";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
+
 
       /*
       label.filter(function(label){
