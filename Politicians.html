@@ -58,7 +58,7 @@ li{
 
 <script>
 function drawGrahpics(){
-var margin = {top: 100, right: 200, bottom: 100, left: 60},
+var margin = {top: 100, right: 200, bottom: 50, left: 60},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 var speed = 600;
@@ -79,7 +79,7 @@ xAxis.tickFormat(function(d,i){
 var yAxis = d3.svg.axis()
     .scale(y)
     .tickFormat(function(d) { return d;})
-    .ticks(6) 
+    .ticks(17) 
     .innerTickSize(- width)
     .tickPadding(10)
     .outerTickSize(0)
@@ -100,7 +100,7 @@ var clip = svg.append("clipPath")
     .attr("y","-20")
     .attr("width", 0)
     .attr("height", height*1.2);
-d3.csv("Partiesv2.csv", function(error, data) {
+d3.csv("Politicians.csv", function(error, data) {
   
   color.domain(d3.keys(data[0]).filter(function(key) { return key !== "week"; }));
   data.forEach(function(d) {
@@ -158,34 +158,40 @@ svg.append("g")
       .attr("class", "candidate");
 // to assign color for each candidate
 function colorFilter(d){
-    if (d.name === "Frontline Socialist Party") {
-          return "#7B1FA2";
-      } else if (d.name === "Eelam People's Revolutionary Liberation Front"){
+    if (d.name === "Ravi Karunanayake") {
+          return "#C53929";
+      } else if (d.name === "Anura Kumara Disanayaka"){
         return "#E91E63";
-      } else if (d.name === "Jathika Hela Urumaya"){
-        return "#303F9F";
-      } else if (d.name === "Democratic People's Front"){
-        return "#7B1FA2";
-      } else if (d.name === "National Union of Workers"){
-        return "#3367D6";
-      } else if (d.name === "National Freedom Front"){
-        return "#4285F4";
-      } else if (d.name === "Tamil Eelam Liberation Organization"){
-        return "#303F9F"; 
-      } else if (d.name === "Janatha Vimukthi Peramuna"){
-        return "#00BCD4";
-      } else if (d.name === "Eelam People's Democratic Party"){
-        return "#0B8043";
-      } else if (d.name === "All Ceylon Muslim Congress"){
+      } else if (d.name === "Harsha De Silva"){
         return "#D83153";
-      } else if (d.name === "Sri Lanka Muslim Congress"){
+      } else if (d.name === "Eran Wickramaratne"){
+        return "#7B1FA2";
+      } else if (d.name === "Bandula Gunawardane"){
+        return "#3367D6";
+      } else if (d.name === "Thilanga Sumathipala"){
+        return "#4285F4";
+      } else if (d.name === "Wijeyadasa Rajapakshe"){
+        return "#303F9F"; 
+      } else if (d.name === "Ranil Wickremasinghe"){
+        return "#00BCD4";
+      } else if (d.name === "Wimal Weerawansa"){
+        return "#0B8043";
+      } else if (d.name === "Champika Ranawaka"){
+        return "#8BC34A";
+      } else if (d.name === "Sajith Premadasa"){
         return "#AFB42B";
-      } else if (d.name === "Illankai Tamil Arasu Kachchi"){
-        return "#C53929";
-      } else if (d.name === "Sri Lanka Freedom Party"){
+      } else if (d.name === "Rajitha Senaratne"){
+        return "#FBC02D";
+      } else if (d.name === "Mangala Samaraweera"){
         return "#FF9800";
-      } else if (d.name === "United National Party"){
-        return "#E5768C";
+      } else if (d.name === "Rauff Hakeem"){
+        return "#E64A19";
+      } else if (d.name == "Nimal Siripala de Silva") {
+          return "#5D4037";
+      } else if (d.name == "John Seneviratne") { 
+          return "#9E9E9E";
+      } else if (d.name == "Susil Premajayantha") {
+          return "#BA68C8";
       } else {
         return "#E5768C";}
     }
@@ -257,14 +263,54 @@ var round = candidates.append("circle")
   // This is the part to solve overlapping in the start
       // overlap 1
   label.filter(function(label){
-        return label.name === "Frontline Socialist Party";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 12) + ")"; })
+        return label.name === "Ravi Karunanayake";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +12) + ")"; })
   label.filter(function(label){
-        return label.name === "Jathika Hela Urumaya";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +24) + ")"; })
-    label.filter(function(label){
-        return label.name === "Janatha Vimukthi Peramuna";
+        return label.name === "Mangala Samaraweera";
       }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) ) + ")"; })
+ 
+      // overlap 2
+        label.filter(function(label){
+        return label.name === "Eran Wickramaratne";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +12) + ")"; })
+  label.filter(function(label){
+        return label.name === "Rajitha Senaratne";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) ) + ")"; })
+
+      // overlap 3
+        label.filter(function(label){
+        return label.name === "Anura Kumara Disanayaka";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +60) + ")"; })
+  label.filter(function(label){
+        return label.name === "Bandula Gunawardane";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 12) + ")"; })
+    label.filter(function(label){
+        return label.name === "Thilanga Sumathipala";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 24) + ")"; })
+      label.filter(function(label){
+        return label.name === "Sajith Premadasa";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 36) + ")"; })
+        label.filter(function(label){
+        return label.name === "Rauff Hakeem";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 48) + ")"; })
+        label.filter(function(label){
+        return label.name === "Susil Premajayantha";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) ) + ")"; })
+
+     // overlap 4
+        label.filter(function(label){
+        return label.name === "Harsha De Silva";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +36) + ")"; })
+  label.filter(function(label){
+        return label.name === "Wijeyadasa Rajapakshe";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 12) + ")"; })
+    label.filter(function(label){
+        return label.name === "Nimal Siripala de Silva";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 24) + ")"; })
+      label.filter(function(label){
+        return label.name === "John Seneviratne";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) ) + ")"; })
+
 
  
   // end 
@@ -320,14 +366,16 @@ var round = candidates.append("circle")
         .attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
     //need to change the names according to the candidates that are in tie
 
-    /*
-      // tie at 6
+    
+      // tie at end
       label.filter(function(label){
-        return label.name === "Frontline Socialist Party";
+        return label.name === "Nimal Siripala de Silva";
       }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
       label.filter(function(label){
-        return label.name === "Eelam People's Revolutionary Liberation Front";
+        return label.name === "Thilanga Sumathipala";
       }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
+
+      /*
       label.filter(function(label){
         return label.name === "National Union of Workers";
       }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) - 12) + ")"; })

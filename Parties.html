@@ -58,7 +58,7 @@ li{
 
 <script>
 function drawGrahpics(){
-var margin = {top: 100, right: 300, bottom: 100, left: 60},
+var margin = {top: 100, right: 200, bottom: 50, left: 60},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 var speed = 600;
@@ -70,16 +70,16 @@ var color = d3.scale.category10();
 var xAxis = d3.svg.axis()
     .scale(x)
     .tickSize(0)
-    .ticks(14)
+    .ticks(15)
     .orient("top");
-var xtickLabels = ["5/3/2015", "5/10/2015", "5/17/2015", "5/24/2015", "5/31/2015", "6/7/2015", "6/14/2015", "6/21/2015", "6/28/2015", "7/5/2015", "7/12/2015", "7/19/2015", "7/26/2015", "8/2/2015"];
+var xtickLabels = ["5/3/2015", "5/10/2015", "5/17/2015", "5/24/2015", "5/31/2015", "6/7/2015", "6/14/2015", "6/21/2015", "6/28/2015", "7/5/2015", "7/12/2015", "7/19/2015", "7/26/2015", "8/2/2015", "8/9/2015"];
 xAxis.tickFormat(function(d,i){
     return xtickLabels[i]
   });
 var yAxis = d3.svg.axis()
     .scale(y)
     .tickFormat(function(d) { return d;})
-    .ticks(12) 
+    .ticks(6) 
     .innerTickSize(- width)
     .tickPadding(10)
     .outerTickSize(0)
@@ -159,11 +159,11 @@ svg.append("g")
 // to assign color for each candidate
 function colorFilter(d){
     if (d.name === "Frontline Socialist Party") {
-          return "#C53929";
+          return "#7B1FA2";
       } else if (d.name === "Eelam People's Revolutionary Liberation Front"){
         return "#E91E63";
       } else if (d.name === "Jathika Hela Urumaya"){
-        return "#D83153";
+        return "#303F9F";
       } else if (d.name === "Democratic People's Front"){
         return "#7B1FA2";
       } else if (d.name === "National Union of Workers"){
@@ -177,15 +177,15 @@ function colorFilter(d){
       } else if (d.name === "Eelam People's Democratic Party"){
         return "#0B8043";
       } else if (d.name === "All Ceylon Muslim Congress"){
-        return "#8BC34A";
+        return "#D83153";
       } else if (d.name === "Sri Lanka Muslim Congress"){
         return "#AFB42B";
       } else if (d.name === "Illankai Tamil Arasu Kachchi"){
-        return "#FBC02D";
+        return "#C53929";
       } else if (d.name === "Sri Lanka Freedom Party"){
         return "#FF9800";
       } else if (d.name === "United National Party"){
-        return "#E64A19";
+        return "#E5768C";
       } else {
         return "#E5768C";}
     }
@@ -257,34 +257,15 @@ var round = candidates.append("circle")
   // This is the part to solve overlapping in the start
       // overlap 1
   label.filter(function(label){
-        return label.name === "Eelam People's Democratic Party";
+        return label.name === "Frontline Socialist Party";
       }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 12) + ")"; })
   label.filter(function(label){
-        return label.name === "Sri Lanka Freedom Party";
+        return label.name === "Jathika Hela Urumaya";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +24) + ")"; })
+    label.filter(function(label){
+        return label.name === "Janatha Vimukthi Peramuna";
       }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) ) + ")"; })
 
-      // overlap 2
-    label.filter(function(label){
-        return label.name === "Eelam People's Revolutionary Liberation Front";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 12) + ")"; })
-  label.filter(function(label){
-        return label.name === "Democratic People's Front";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +72 ) + ")"; })
-  label.filter(function(label){
-        return label.name === "National Union of Workers";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 24) + ")"; })
-  label.filter(function(label){
-        return label.name === "National Freedom Front";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 36) + ")"; })
-  label.filter(function(label){
-        return label.name === "Tamil Eelam Liberation Organization";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 48) + ")"; })
-  label.filter(function(label){
-        return label.name === "All Ceylon Muslim Congress";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 60) + ")"; })
-  label.filter(function(label){
-        return label.name === "Illankai Tamil Arasu Kachchi";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) ) + ")"; })
  
   // end 
   var week = 1;
@@ -328,18 +309,18 @@ var round = candidates.append("circle")
       //   .attr("cy", y(0) + 20);
       
     
-    if (week !== 13){
+    if (week !== 14){
        
         week+=1;
         transition = transition.transition().each("start", start);} 
-     else if (week === 13){
+     else if (week === 14){
       label.transition()
         .duration(speed)
         .ease('linear')
         .attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
     //need to change the names according to the candidates that are in tie
 
-    
+    /*
       // tie at 6
       label.filter(function(label){
         return label.name === "Frontline Socialist Party";
@@ -372,7 +353,7 @@ var round = candidates.append("circle")
       label.filter(function(label){
         return label.name === "Illankai Tamil Arasu Kachchi";
       }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) - 24) + ")"; })
-
+*/
 
         ranking.transition()
         .duration(speed)
