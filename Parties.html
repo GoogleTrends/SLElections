@@ -309,51 +309,63 @@ var round = candidates.append("circle")
       //   .attr("cy", y(0) + 20);
       
     
-    if (week !== 14){
+    if (week < 12 && week !== 3 && week !== 4){
        
         week+=1;
         transition = transition.transition().each("start", start);} 
+    
+ else if (week === 3 || week === 4){
+ label.transition()
+        .duration(speed)
+        .ease('linear')
+        .attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
+    //need to change the names according to the candidates that are in tie
+
+
+      // tie at 7
+      label.filter(function(label){
+        return label.name === "Frontline Socialist Party";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
+      label.filter(function(label){
+        return label.name === "Sri Lanka Muslim Congress";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
+
+      week+=1;
+        transition = transition.transition().each("start", start);} 
+
+
+
+    else if (week === 12 || week === 13){
+ label.transition()
+        .duration(speed)
+        .ease('linear')
+        .attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
+    //need to change the names according to the candidates that are in tie
+
+
+      // tie at 7
+      label.filter(function(label){
+        return label.name === "Sri Lanka Freedom Party";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
+      label.filter(function(label){
+        return label.name === "Frontline Socialist Party";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) +12 ) + ")"; })
+
+      label.filter(function(label){
+        return label.name === "Jathika Hela Urumaya";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) +24 ) + ")"; })
+
+      week+=1;
+        transition = transition.transition().each("start", start);} 
+
+
+
      else if (week === 14){
       label.transition()
         .duration(speed)
         .ease('linear')
         .attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
     //need to change the names according to the candidates that are in tie
-
-    /*
-      // tie at 6
-      label.filter(function(label){
-        return label.name === "Frontline Socialist Party";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
-      label.filter(function(label){
-        return label.name === "Eelam People's Revolutionary Liberation Front";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
-      label.filter(function(label){
-        return label.name === "National Union of Workers";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) - 12) + ")"; })
-
-      // bringing up rank 9
-      label.filter(function(label){
-        return label.name === "Eelam People's Democratic Party";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) - 12) + ")"; })
-
-      // tie at 10
-      label.filter(function(label){
-        return label.name === "Democratic People's Front";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
-      label.filter(function(label){
-        return label.name === "National Freedom Front";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
-      label.filter(function(label){
-        return label.name === "Tamil Eelam Liberation Organization";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) - 12) + ")"; })
-      label.filter(function(label){
-        return label.name === "All Ceylon Muslim Congress";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 24) + ")"; })
-      label.filter(function(label){
-        return label.name === "Illankai Tamil Arasu Kachchi";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) - 24) + ")"; })
-*/
 
         ranking.transition()
         .duration(speed)
