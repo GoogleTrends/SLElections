@@ -16,9 +16,9 @@
 
 <style>
 body {
-  font-size: 12px;
+  font-size: 10px;
   font-family: 'Roboto', sans-serif;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 li{
     margin-left: 30px;
@@ -27,7 +27,7 @@ li{
   display: none;
 }
 .x.axis text, .y.axis text{
-      font-size: 10px;
+      font-size: 9px;
       fill:grey;
     }
 .line {
@@ -58,54 +58,67 @@ li{
 
 <script>
 function drawGrahpics(){
-var margin = {top: 75, right: 200, bottom: 100, left: 60},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-var speed = 600;
-var x = d3.scale.linear()
-    .range([0, width]);
-var y = d3.scale.linear()
-    .range([height, 0]);
-var color = d3.scale.category10();
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .tickSize(0)
-    .ticks(15)
-    .orient("top");
-var xtickLabels = ["5/3/2015", "5/10/2015", "5/17/2015", "5/24/2015", "5/31/2015", "6/7/2015", "6/14/2015", "6/21/2015", "6/28/2015", "7/5/2015", "7/12/2015", "7/19/2015", "7/26/2015", "8/2/2015", "8/9/2015"];
-xAxis.tickFormat(function(d,i){
-    return xtickLabels[i]
-  });
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .tickFormat(function(d) { return d;})
-    .ticks(18) 
-    .innerTickSize(- width)
-    .tickPadding(10)
-    .outerTickSize(0)
-    .orient("left");
-var line = d3.svg.line()
-    .x(function(d) { return x(d.week); })
-    .y(function(d) { return y(d.rank); });
-var svg = d3.select("#graphic").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .call(responsivefy)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-var clip = svg.append("clipPath")
-    .attr("id", "clip")
-    .append("rect")
-    .attr("x","-5")
-    .attr("y","-20")
-    .attr("width", 0)
-    .attr("height", height*1.2);
+  var margin = {top: 75, right: 200, bottom: 125, left: 60},
+      width = 960 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+  var speed = 600;
+
+  var x = d3.scale.linear()
+            .range([0, width]);
+
+  var y = d3.scale.linear()
+            .range([height, 0]);
+
+  var color = d3.scale.category10();
+
+  var xAxis = d3.svg.axis()
+                .scale(x)
+                .tickSize(0)
+                .ticks(15)
+                .orient("top");
+
+  var xtickLabels = ["5/3/15", "5/10/15", "5/17/15", "5/24/15", "5/31/15", "6/7/15", "6/14/15", "6/21/15", "6/28/15", "7/5/15", "7/12/15", "7/19/15", "7/26/15", "8/2/15", "8/9/15"];
+
+  xAxis.tickFormat(function(d,i){
+      return xtickLabels[i]
+    });
+
+  var yAxis = d3.svg.axis()
+      .scale(y)
+      .tickFormat(function(d) { return d;})
+      .ticks(21) 
+      .innerTickSize(- width)
+      .tickPadding(10)
+      .outerTickSize(0)
+      .orient("left");
+
+  var line = d3.svg.line()
+      .x(function(d) { return x(d.week); })
+      .y(function(d) { return y(d.rank); });
+
+  var svg = d3.select("#graphic").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .call(responsivefy)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var clip = svg.append("clipPath")
+      .attr("id", "clip")
+      .append("rect")
+      .attr("x","-5")
+      .attr("y","-20")
+      .attr("width", 0)
+      .attr("height", height*1.2);
+
 d3.csv("Politicians.csv", function(error, data) {
   
   color.domain(d3.keys(data[0]).filter(function(key) { return key !== "week"; }));
   data.forEach(function(d) {
     d.week = +[d.week];
   });
+
   var candidates = color.domain().map(function(name) {
     return {
       name: name,
@@ -114,11 +127,14 @@ d3.csv("Politicians.csv", function(error, data) {
       })
     };
   });
+
   x.domain(d3.extent(data, function(d) { return d.week; }));
+
   y.domain([
     d3.min(candidates, function(c) { return d3.min(c.values, function(v) { return v.rank ; }); }),
     d3.max(candidates, function(c) { return d3.max(c.values, function(v) { return v.rank ; }); })
   ].reverse());
+
 svg.append("g")
       .attr("class", "x axis")
       .attr("transform","translate(0,0)")
@@ -129,9 +145,12 @@ svg.append("g")
       .attr("dy", "-0.9em") 
       .attr("transform",function(d){
         return "rotate(-60)"});
+
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
+
+
   //timeline 
   svg.append("line")
         .attr(
@@ -147,15 +166,14 @@ svg.append("g")
             "stroke-width" : "1px",
             "stroke-dasharray": ("3, 3")
         })
-        .attr("clip-path", function(d) { return "url(#clip)"; });
-        
-       
+        .attr("clip-path", function(d) { return "url(#clip)"; });      
   //end of timeline
  
   var candidates = svg.selectAll(".candidate")
-      .data(candidates)
-    .enter().append("g")
-      .attr("class", "candidate");
+                      .data(candidates)
+                      .enter().append("g")
+                      .attr("class", "candidate");
+
 // to assign color for each candidate
 function colorFilter(d){
     if (d.name === "Ravi Karunanayake") {
@@ -192,6 +210,12 @@ function colorFilter(d){
           return "#9E9E9E";
       } else if (d.name == "Susil Premajayantha") {
           return "#BA68C8";
+      } else if (d.name == "Mahinda Rajapaksa") {
+          return "#9575CD";
+      } else if (d.name == "Athauda Seneviratne") {
+          return "#0097A7";
+      } else if (d.name == "Chamal Rajapaksa") {
+          return "#FF8A65";
       } else {
         return "#E5768C";}
     }
@@ -213,26 +237,24 @@ var circleEnd = candidates.append("circle")
       .attr("cy", function(d) { return y(d.values[0].rank);} )
       .style("fill", colorFilter)
       .attr("r", 2);
- // var timemark = candidates.append("circle")
- //    .attr("cx",function(d) { return x(d.values[0].week); })
- //    .attr("cy",y(0)+20)
- //    .attr("r",3)
- //    .style("fill","grey")
+
 var timemark = candidates.append("path")
                   .attr("d", d3.svg.symbol().type("triangle-up"))
                   .style("fill", "grey")
                   .attr("transform",function(d) { return "translate(" + (x(d.values[0].week) ) + "," + (y(1)-15) + ") rotate(-30)"; })
+
 var round = candidates.append("circle")
       .attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 15) + "," + (y(d.values[0].rank)) + ")"; })
       .attr("x", 0)
       .attr("y",0)
-      .attr("r", 10)
+      .attr("r", 7)
       .on("mouseover", function (d) {
         candidates.style("opacity",0.1);
         candidates.filter(function(path) {return path.name === d.name; }).style("opacity",1);
       })
       .on("mouseout", function (d) { candidates.style("opacity",1); })
       .style("fill", colorFilter);
+  
   var ranking = candidates.append("text")
       .attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 15 ) + "," + (y(d.values[0].rank) ) + ")"; })
       .attr("x", 0)
@@ -247,6 +269,7 @@ var round = candidates.append("circle")
       .style("fill", "#ffffff")
       .style("font-weight", "bold")
       .text(function(d) { return d.values[0].rank; });
+  
   var label = candidates.append("text")
       .attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) ) + ")"; })
       .attr("x", 8)
@@ -260,6 +283,7 @@ var round = candidates.append("circle")
       .style("fill", colorFilter)
       .style("font-weight", "bold")
       .text(function(d) { return d.name; });
+ 
   // This is the part to solve overlapping in the start
       // overlap 1
   label.filter(function(label){
@@ -269,60 +293,62 @@ var round = candidates.append("circle")
         return label.name === "Mangala Samaraweera";
       }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) ) + ")"; })
  
+
       // overlap 2
-        label.filter(function(label){
-        return label.name === "Eran Wickramaratne";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +12) + ")"; })
-  label.filter(function(label){
-        return label.name === "Rajitha Senaratne";
+    label.filter(function(label){
+        return label.name === "Sajith Premadasa";
       }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) ) + ")"; })
+    label.filter(function(label){
+        return label.name === "Rajitha Senaratne";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +12) + ")"; })
 
       // overlap 3
-        label.filter(function(label){
-        return label.name === "Anura Kumara Disanayaka";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +60) + ")"; })
-  label.filter(function(label){
-        return label.name === "Bandula Gunawardane";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 12) + ")"; })
-    label.filter(function(label){
-        return label.name === "Thilanga Sumathipala";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 24) + ")"; })
-      label.filter(function(label){
-        return label.name === "Sajith Premadasa";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 36) + ")"; })
-        label.filter(function(label){
-        return label.name === "Rauff Hakeem";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 48) + ")"; })
-        label.filter(function(label){
-        return label.name === "Susil Premajayantha";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) ) + ")"; })
-
-     // overlap 4
-        label.filter(function(label){
-        return label.name === "Harsha De Silva";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +36) + ")"; })
-  label.filter(function(label){
-        return label.name === "Wijeyadasa Rajapakshe";
-      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 12) + ")"; })
     label.filter(function(label){
         return label.name === "Nimal Siripala de Silva";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +60) + ")"; })
+    label.filter(function(label){
+        return label.name === "Rauff Hakeem";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 12) + ")"; })
+    label.filter(function(label){
+        return label.name === "Athauda Seneviratne";
       }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 24) + ")"; })
       label.filter(function(label){
         return label.name === "John Seneviratne";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 36) + ")"; })
+        label.filter(function(label){
+        return label.name === "Susil Premajayantha";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 48) + ")"; })
+        label.filter(function(label){
+        return label.name === "Bandula Gunawardane";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) ) + ")"; })
+
+     // overlap 4
+    label.filter(function(label){
+        return label.name === "Chamal Rajapaksa";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) +36) + ")"; })
+    label.filter(function(label){
+        return label.name === "Thilanga Sumathipala";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 12) + ")"; })
+    label.filter(function(label){
+        return label.name === "Wijeyadasa Rajapakshe";
+      }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) + 24) + ")"; })
+      label.filter(function(label){
+        return label.name === "Harsha De Silva";
       }).transition().duration(10).attr("transform", function(d) { return "translate(" + (x(d.values[0].week) + 20) + "," + (y(d.values[0].rank) ) + ")"; })
 
 
  
   // end 
+
   var week = 1;
   var transition = d3.transition()
-    .delay(800)
-    .duration(speed)
-    .each("start", function start() {         
-      label.transition()
-        .duration(speed)
-        .ease('linear')
-      .attr("transform", function(d) { return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
+                      .delay(800)
+                      .duration(speed)
+                      .each("start", function start() {         
+                        label.transition()
+                             .duration(speed)
+                             .ease('linear')
+                           .attr("transform", function(d) { return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
       .text(function(d) { return  d.name; });
       ranking.transition()
         .duration(speed)
@@ -348,17 +374,70 @@ var round = candidates.append("circle")
          .duration(speed)
          .ease('linear')
          .attr("transform",function(d) { return "translate(" + (x(d.values[week].week) ) + "," + (y(1)-15) + ") rotate(-30)"; })
-      // timemark.transition()
-      //   .duration(speed)
-      //   .ease('linear')
-      //   .attr("cx", function(d) { return x(d.values[week].week); })
-      //   .attr("cy", y(0) + 20);
       
     
-    if (week !== 14){
+    if (week === 1 || week === 2){
        
         week+=1;
         transition = transition.transition().each("start", start);} 
+
+    else if (week === 3) {
+      label.transition()
+        .duration(speed)
+        .ease('linear')
+        .attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
+    //need to change the names according to the candidates that are in tie
+
+      // tie at 4
+      label.filter(function(label){
+        return label.name === "Nimal Siripala de Silva";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
+      label.filter(function(label){
+        return label.name === "Susil Premajayantha";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
+
+      week+=1;
+        transition = transition.transition().each("start", start);} 
+
+    else if (week >= 4 && week <= 9) {
+      label.transition()
+        .duration(speed)
+        .ease('linear')
+        .attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
+    //need to change the names according to the candidates that are in tie
+
+
+      // tie at 7
+      label.filter(function(label){
+        return label.name === "Athauda Seneviratne";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
+      label.filter(function(label){
+        return label.name === "Anura Kumara Disanayaka";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
+
+      week+=1;
+        transition = transition.transition().each("start", start);} 
+
+
+        else if (week >= 10 && week <= 13) {
+      label.transition()
+        .duration(speed)
+        .ease('linear')
+        .attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
+    //need to change the names according to the candidates that are in tie
+
+
+      // tie at 7
+      label.filter(function(label){
+        return label.name === "Athauda Seneviratne";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
+      label.filter(function(label){
+        return label.name === "Nimal Siripala de Silva";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) +12) + ")"; })
+
+      week+=1;
+        transition = transition.transition().each("start", start);} 
+
      else if (week === 14){
       label.transition()
         .duration(speed)
@@ -366,26 +445,8 @@ var round = candidates.append("circle")
         .attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
     //need to change the names according to the candidates that are in tie
 
-    
-      // tie at end
-      label.filter(function(label){
-        return label.name === "Nimal Siripala de Silva";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 48) + ")"; })
-      label.filter(function(label){
-        return label.name === "Thilanga Sumathipala";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
-      label.filter(function(label){
-        return label.name === "Susil Premajayantha";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
-      label.filter(function(label){
-        return label.name === "Rauff Hakeem";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 36) + ")"; })
-      label.filter(function(label){
-        return label.name === "Anura Kumara Disanayaka";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) +24) + ")"; })
 
-
-      // tie at end
+      // tie at 7
       label.filter(function(label){
         return label.name === "Ravi Karunanayake";
       }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
@@ -393,50 +454,43 @@ var round = candidates.append("circle")
         return label.name === "Sajith Premadasa";
       }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
 
-      // tie at end
+        // tie at 11
       label.filter(function(label){
-        return label.name === "Harsha De Silva";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
-      label.filter(function(label){
-        return label.name === "Mangala Samaraweera";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
-
-            // tie at end
+        return label.name === "Susil Premajayantha";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 36) + ")"; })
       label.filter(function(label){
         return label.name === "Bandula Gunawardane";
       }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
       label.filter(function(label){
-        return label.name === "John Seneviratne";
+        return label.name === "Mangala Samaraweera";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 24) + ")"; })
+      label.filter(function(label){
+        return label.name === "Harsha De Silva";
       }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
 
 
-      /*
+        // tie at 15
       label.filter(function(label){
-        return label.name === "National Union of Workers";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) - 12) + ")"; })
-
-      // bringing up rank 9
-      label.filter(function(label){
-        return label.name === "Eelam People's Democratic Party";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) - 12) + ")"; })
-
-      // tie at 10
-      label.filter(function(label){
-        return label.name === "Democratic People's Front";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank)) + ")"; })
-      label.filter(function(label){
-        return label.name === "National Freedom Front";
+        return label.name === "Nimal Siripala de Silva";
       }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
       label.filter(function(label){
-        return label.name === "Tamil Eelam Liberation Organization";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) - 12) + ")"; })
+        return label.name === "Rauff Hakeem";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) +24) + ")"; })
       label.filter(function(label){
-        return label.name === "All Ceylon Muslim Congress";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 24) + ")"; })
+        return label.name === "Athauda Seneviratne";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
+
+      // tie at 19
       label.filter(function(label){
-        return label.name === "Illankai Tamil Arasu Kachchi";
-      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) - 24) + ")"; })
-*/
+        return label.name === "John Seneviratne";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) + 12) + ")"; })
+      label.filter(function(label){
+        return label.name === "Chamal Rajapaksa";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) +24) + ")"; })
+      label.filter(function(label){
+        return label.name === "Thilanga Sumathipala";
+      }).transition().duration(speed).ease('linear').attr("transform", function(d) {return "translate(" + (x(d.values[week].week) + 20) + "," + (y(d.values[week].rank) ) + ")"; })
+
 
         ranking.transition()
         .duration(speed)
